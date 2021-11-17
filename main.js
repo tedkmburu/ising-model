@@ -1,16 +1,22 @@
 let lattice = []
-let numberOfRows = 40;
-let numberOfCols = 80;
+const numberOfRows = 10;
+const numberOfCols = 10;
+let gridSpacing = 20;
+let pixelSize = 20; 
+
 function setup()
 {
     createCanvas(innerWidth, innerHeight);
+
+    pixelSize = (height - 200) / numberOfRows;
+    gridSpacing = pixelSize;
 
     for (let x = 0; x < numberOfCols; x++) 
     {
         lattice[x] = []
         for (let y = 0; y < numberOfRows; y++) 
         {
-            lattice[x][y] = new Magnet({x: x, y: y, neighbors: [], direction: Math.floor(Math.random() * 2)});
+            lattice[x][y] = new Magnet({x: x, y: y, neighbors: [], state: Math.floor(Math.random() * 2)});
         }
     }
 }
@@ -18,7 +24,7 @@ function setup()
 function draw() 
 {
     background(105);
-    frameRate(1);
+    frameRate(3);
 
     lattice.forEach(column => {
         column.forEach(magnet => 
@@ -39,7 +45,7 @@ function calc()
             let down = 0;
             let up = 0;
 
-            if (lattice[x + 1][y].direction) 
+            if (lattice[x + 1][y].state) 
             {
                 up++;
             }
@@ -48,7 +54,7 @@ function calc()
                 down++;
             }
 
-            if (lattice[x - 1][y].direction) 
+            if (lattice[x - 1][y].state) 
             {
                 up++;
             }
@@ -57,7 +63,7 @@ function calc()
                 down++;
             }
 
-            if (lattice[x][y - 1].direction) 
+            if (lattice[x][y - 1].state) 
             {
                 up++;
             }
@@ -66,7 +72,7 @@ function calc()
                 down++;
             }
 
-            if (lattice[x + 1][y - 1].direction) 
+            if (lattice[x + 1][y - 1].state) 
             {
                 up++;
             }
@@ -75,7 +81,7 @@ function calc()
                 down++;
             }
 
-            if (lattice[x - 1][y - 1].direction) 
+            if (lattice[x - 1][y - 1].state) 
             {
                 up++;
             }
@@ -84,7 +90,7 @@ function calc()
                 down++;
             }
 
-            if (lattice[x][y + 1].direction) 
+            if (lattice[x][y + 1].state) 
             {
                 up++;
             }
@@ -93,7 +99,7 @@ function calc()
                 down++;
             }
 
-            if (lattice[x + 1][y + 1].direction) 
+            if (lattice[x + 1][y + 1].state) 
             {
                 up++;
             }
@@ -102,7 +108,7 @@ function calc()
                 down++;
             }
 
-            if (lattice[x - 1][y + 1].direction) 
+            if (lattice[x - 1][y + 1].state) 
             {
                 up++;
             }
@@ -111,14 +117,26 @@ function calc()
                 down++;
             }
 
-            if (up > down) 
-            {
-                lattice[x][y].direction = 0;
-            }
-            else if (up < down)
-            {
-                lattice[x][y].direction = 1;
-            }
+            
+            
+            // if (up > down) 
+            // {
+                let flipUpProbability = Math.round((Math.abs(up - 3) * Math.random()));
+
+                if (flipUpProbability) 
+                {
+                    lattice[x][y].nextState = 0;
+                }
+            // ][y].nextState = 1;
+
+                let flipDownProbability = Math.round((Math.abs(down - 3) * Math.random()));
+
+
+                if (flipDownProbability) 
+                {
+                    lattice[x][y].nextState = 1;
+                }
+            // }
         }
     }
 }
@@ -130,15 +148,19 @@ class Magnet
         this.x = props.x;
         this.y = props.y;
         this.neighbors = props.neighbors;
-        this.direction = props.direction; 
+        this.state = props.state; 
+        this.nextState = props.state; 
     }
 
     display()
     {
+        this.state = this.nextState;
         noFill()
-        rect((this.x * 20) + 50, (this.y * 20) + 50, 20, 20)
+        stroke(0)
+        // rect((this.x * gridSpacing) + 50, (this.y * gridSpacing) + 50, gridSpacing, gridSpacing)
 
-        if (this.direction) 
+        noStroke()
+        if (this.state) 
         {
             fill(0)
         }
@@ -146,6 +168,6 @@ class Magnet
         {
             fill(255)
         }
-        rect((this.x * 20) + 45, (this.y * 20) + 45, 10, 10)
+        rect((this.x * pixelSize) + 50 - (pixelSize / 2), (this.y * pixelSize) + 50 - (pixelSize / 2), pixelSize, pixelSize)
     }
 }
