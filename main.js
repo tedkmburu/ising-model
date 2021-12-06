@@ -208,7 +208,6 @@ function calc()
 
     newLattice[randX][randY].state = (newLattice[randX][randY].state == 1) ? -1 : 1;
 
-<<<<<<< Updated upstream
     newLattice.forEach(row => {
         row.forEach(square => { 
             newBaseCharge += square.state;
@@ -232,41 +231,12 @@ function calc()
     {
         randX = Math.floor(Math.random() * (numberOfCols - 2)) + 1; 
         randY = Math.floor(Math.random() * (numberOfRows - 2)) + 1; 
-=======
-            if (lattice[x - 1][y + 1].state) 
-            {
-                up++;
-            }
-            else
-            {
-                down++;
-            }
-
-            
-            
-            if (up > down) 
-            {
-                let flipUpProbability = Math.round(up * Math.random());
-
-                if (flipUpProbability >= 1) 
-                {
-                    lattice[x][y].nextState = 0;
-                }
-            }
-            else if (down > up)
-            {
-           
-            // ][y].nextState = 1;
-
-                let flipDownProbability = Math.round(down * Math.random());
->>>>>>> Stashed changes
 
         let baseCharge = 0;
         lattice[randX][randY].neighbors.forEach(neighbor => {
             baseCharge += lattice[neighbor.x][neighbor.y].state;
         })
 
-<<<<<<< Updated upstream
         let flip = Math.floor(Math.random() > 0.5) ;
         let boltzmann = flip < Math.pow(Math.E,(- (Math.abs(baseCharge) - Math.abs(newBaseCharge))  / temp));
         // console.log(boltzmann);
@@ -279,13 +249,6 @@ function calc()
         {
             lattice[randX][randY].state = 1;
             lattice[randX][randY].display()
-=======
-                if (flipDownProbability >= 1) 
-                {
-                    lattice[x][y].nextState = 1;
-                }
-            }
->>>>>>> Stashed changes
         }
     }
 }

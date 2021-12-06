@@ -246,7 +246,7 @@ class Magnet
         this.y = props.y;
         this.neighbors = props.neighbors;
         this.state = props.state; 
-        this.nextState = props.state; 
+        // this.nextState = props.state; 
     }
 
     display()
@@ -257,7 +257,7 @@ class Magnet
         stroke(0)
         // rect((this.x * gridSpacing) + 50, (this.y * gridSpacing) + 50, gridSpacing, gridSpacing)
 
-        noStroke()
+        noStroke() 
         if (this.state == 1) fill(0) 
         else if(this.state == -1) fill(255)
         else fill("red")
