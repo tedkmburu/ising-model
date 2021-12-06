@@ -1,6 +1,6 @@
 let lattice = [];
-const numberOfRows = 50;
-const numberOfCols = 50;
+const numberOfRows = 10;
+const numberOfCols = 10;
 let gridSpacing = 20;
 let pixelSize = 20; 
 
@@ -159,6 +159,7 @@ class Magnet
 
     display()
     {
+        push()
         this.state = this.nextState;
         noFill()
         stroke(0)
@@ -173,6 +174,18 @@ class Magnet
         {
             fill(255)
         }
-        rect((this.x * pixelSize) + 50 - (pixelSize / 2), (this.y * pixelSize) + 50 - (pixelSize / 2), pixelSize, pixelSize)
+        translate((this.x * pixelSize) + 50 - (pixelSize / 2), (this.y * pixelSize / Math.sqrt(2)) / 2)
+        if (this.y % 2 == 0)
+        {
+            translate((pixelSize / 2), pixelSize + 5)
+            //translate(pixelSize / 2, 0)
+            triangle(0, 0, pixelSize, 0, pixelSize/2, -pixelSize/Math.sqrt(2));
+        }
+        else 
+        {
+            triangle(0, 0, pixelSize, 0, pixelSize/2, pixelSize/Math.sqrt(2));
+        }
+        
+        pop()
     }
 }
